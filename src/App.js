@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 //import logo from './logo.svg';
 import './App.css';
-import Login from './Login'
+/* import Login from './Login'*/
 import RegisterAppointment from './RegisterAppointment'
 
 class App extends Component {
@@ -20,12 +20,14 @@ class App extends Component {
 
     session_selected(session){
         console.log("Session : " + session)
-        this.setState({username: this.state.username, session: session.target.value})
+        this.setState({session: session.target.value})
     }
 
   render() {
     return (
-        <RegisterAppointment />
+        <div>
+            <RegisterAppointment />
+        </div>
     );
   }
 }

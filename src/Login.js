@@ -21,15 +21,11 @@ class Login extends Component {
     }
 
     passwdChange(event){
-        var state = this.state
-        state.passwd = event.target.value
-        this.setState(state)
+        this.setState({"passwd": event.target.value})
     }
 
     usernameChange(event){
-        var state = this.state
-        state.username = event.target.value
-        this.setState(state)
+        this.setState({username: event.target.value})
     }
 
     render(){
