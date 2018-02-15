@@ -1,9 +1,16 @@
 import React, { Component } from 'react';
 import $ from 'jquery'
-/* import '../node_modules/pickadate/lib/picker.js'*/
+import '../node_modules/pickadate/lib/picker.js'
 import '../node_modules/pickadate/lib/picker.time.js'
+import '../node_modules/pickadate/lib/themes/default.css'
+import '../node_modules/pickadate/lib/themes/default.time.css'
 
 export default class TimePicker extends Component {
+
+    constructor(props){
+        super(props)
+        this.timepickerClosed = this.timepickerClosed.bind(this)
+    }
 
     componentDidMount(){
 
@@ -25,9 +32,24 @@ export default class TimePicker extends Component {
             editable: false,
             onClose: function() {
                 console.log('Closed now');
-                /* this.$holder.blur();*/
+                this.$holder.blur();
             },
         });
+
+        this.timepicker = this.input.pickatime('picker');
+        this.timepicker.on('close', this.timepickerClosed);
+    }
+
+    timepickerClosed(){
+        console.log("Closed");
+        this.props.timeSelected(this.timepicker.get())
+    }
+
+    componentWillReceiveProps(nextProps){
+        if (nextProps.visible === true && this.props.visible !== nextProps.visible){
+            this.timepicker.open()
+            console.log("Make visible")
+        }
     }
 
     render(){

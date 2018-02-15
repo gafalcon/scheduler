@@ -6,7 +6,7 @@ var SessionSelect = function(props){
             <label htmlFor="exampleFormControlSelect1">Seleccione una sesión</label>
             <select className="form-control" id="exampleFormControlSelect1" onChange={props.session_selected}>
                 <option value=""></option>
-                { props.availableSessions.map((opt, i) => <option>{opt}</option> )}
+                { props.availableSessions.map((opt, i) => <option key={i}>{opt}</option> )}
             </select>
         </div>
     )

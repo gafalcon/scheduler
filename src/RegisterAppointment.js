@@ -20,6 +20,7 @@ export default class RegisterAppointment extends Component {
         }
         this.session_selected = this.session_selected.bind(this)
         this.dateSelected = this.dateSelected.bind(this)
+        this.timeSelected = this.timeSelected.bind(this)
     }
 
     session_selected(event){
@@ -42,7 +43,12 @@ export default class RegisterAppointment extends Component {
     }
 
     dateSelected(day){
-        this.setState({"day": day})
+        this.setState({"day": day, timepicker: true})
+        // TODO find available times for timepicker
+    }
+
+    timeSelected(time){
+        this.setState({time: time, timepicker: false})
     }
 
     render (){
@@ -51,7 +57,11 @@ export default class RegisterAppointment extends Component {
                 <h1>Registro de cita</h1>
                 <SessionSelect session_selected={this.session_selected} availableSessions={this.state.availableSessions}/>
                 <Calendar {...this.state.session} dateSelected={this.dateSelected}/>
-                <TimePicker visible={this.state.timepicker} availableTimes={this.state.availableTimes} />
+                <TimePicker visible={this.state.timepicker}
+                            availableTimes={this.state.availableTimes}
+                            timeSelected={this.timeSelected}
+                />
+
             </div>
         )
     }
