@@ -1,16 +1,22 @@
 import React, { Component } from 'react';
 import SessionSelect from './SessionSelect'
 import Calendar from './Calendar'
+import TimePicker from './TimePicker'
 
 export default class RegisterAppointment extends Component {
 
     constructor(props){
         super(props)
-        this.state = {"session_name": "",
+        //TODO find available sessions in DB
+        this.state = {
+            "session_name": "",
             "session": {
-                minDate: new Date(2018, 0, 1),
-                maxDate: new Date(2018, 3, 1)
-            }
+                minDate: new Date(),
+                maxDate: new Date()
+            },
+            "availableSessions": ["sesion1", "sesion2", "sesion3"],
+            availableTimes: [],
+            timepicker: false
         }
         this.session_selected = this.session_selected.bind(this)
         this.dateSelected = this.dateSelected.bind(this)
@@ -20,7 +26,8 @@ export default class RegisterAppointment extends Component {
         var session_name = event.target.value
         this.setState({session_name: session_name})
 
-        if (session_name === "1"){
+        //TODO find available dates on a DB
+        if (session_name === "sesion1"){
             var session = {
                 minDate: new Date(2018, 0, 1),
                 maxDate: new Date(2018, 1, 1)
@@ -42,8 +49,9 @@ export default class RegisterAppointment extends Component {
         return (
             <div>
                 <h1>Registro de cita</h1>
-                <SessionSelect session_selected={this.session_selected}/>
+                <SessionSelect session_selected={this.session_selected} availableSessions={this.state.availableSessions}/>
                 <Calendar {...this.state.session} dateSelected={this.dateSelected}/>
+                <TimePicker visible={this.state.timepicker} availableTimes={this.state.availableTimes} />
             </div>
         )
     }
