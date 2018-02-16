@@ -20,8 +20,6 @@ class Calendar extends Component {
 
     componentDidMount() {
 
-        /* var minDate = new Date(2018,0,1);
-         * var maxDate = new Date(2018,11,23);*/
         var container = document.querySelector('#inlineContainer');
 
         this.datepicker = new Datepickk({
@@ -33,8 +31,7 @@ class Calendar extends Component {
             minDate: this.props.minDate,
             maxSelections: 1,
             onSelect: this.onDateSelect
-            /* onSelect: onDateSelect,
-             * disabledDates: disabledDates,*/
+            /* disabledDates: disabledDates,*/
             /* lang: 'es',*/
             /* onNavigation: function(){
              *     var month = document.querySelector('.d-month');
@@ -43,6 +40,10 @@ class Calendar extends Component {
              * }*/
 
         });
+    }
+
+    componentWillUnmount(){
+        //TODO release resources
     }
 
     componentWillReceiveProps(nextProps) {

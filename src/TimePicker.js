@@ -40,6 +40,10 @@ export default class TimePicker extends Component {
         this.timepicker.on('close', this.timepickerClosed);
     }
 
+    componentWillUnmount(){
+        //TODO release resources
+    }
+
     timepickerClosed(){
         console.log("Closed");
         this.props.timeSelected(this.timepicker.get())
