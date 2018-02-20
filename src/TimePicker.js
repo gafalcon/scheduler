@@ -42,6 +42,7 @@ export default class TimePicker extends Component {
 
     componentWillUnmount(){
         //TODO release resources
+        /* this.*/
     }
 
     timepickerClosed(){
