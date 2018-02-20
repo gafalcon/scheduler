@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import './App.css';
 /* import Login from './Login'*/
 import RegisterAppointment from './RegisterAppointment'
+import CreateSesionForm from './session/CreateSesion.js'
 
 class App extends Component {
 
@@ -26,7 +27,8 @@ class App extends Component {
   render() {
     return (
         <div>
-            <RegisterAppointment />
+            {/* <RegisterAppointment /> */}
+            <CreateSesionForm />
         </div>
     );
   }
