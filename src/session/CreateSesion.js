@@ -36,6 +36,7 @@ export default class CreateSesionForm extends Component{
         this.durationChanged = this.durationChanged.bind(this)
         this.descriptionChanged = this.descriptionChanged.bind(this)
         this.handleDate = this.handleDate.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this)
     }
 
     handleDate(dateState){
@@ -70,12 +71,32 @@ export default class CreateSesionForm extends Component{
     durationChanged(e){ this.setState({ duration: e.target.value })}
     descriptionChanged(e){ this.setState({ description: e.target.value })}
 
+    handleSubmit(event){
+        event.preventDefault()
+        const body = JSON.stringify({
+            ...this.state, start_date: this.state.from, end_date: this.state.to,
+            time_intervals: this.state.time_intervals.map((t, i) => {
+                return { from: "2018-1-1 "+t.from, to: "2018-1-1 "+t.to}
+            })
+        })
+        fetch("/sessions/", {
+            method: 'POST',
+            body: body,
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            })
+        })
+             .then(res => res.json())
+             .catch(error => console.error('Error: ', error))
+             .then(response => console.log('Success:', response))
+    }
+
     render(){
         const { time_intervals, name, duration, description } = this.state
         return (
             <div>
                 <h1>Crear Nueva Sesión</h1>
-                <form>
+                <form onSubmit={this.handleSubmit}>
                     <div className="form-group">
                         <label htmlFor="name">Nombre</label>
                         <input type="text" className="form-control" id="name" placeholder="Name" value={name} onChange={this.nameChanged}/>
