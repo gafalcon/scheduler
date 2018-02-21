@@ -15,8 +15,6 @@ export default class DateRangePicker extends React.Component {
 
     getInitialState(){
         return {
-            from: null,
-            to: null,
             enteredTo: null //keep track of the last day for mouseEnter
         }
     }
@@ -26,26 +24,29 @@ export default class DateRangePicker extends React.Component {
         return !from || isBeforeFirstDay || isRangeSelected
     }
     handleDayClick(day){
-        const { from, to } = this.state;
+        const { from, to } = this.props;
         if (from && to && day >= from && day <= to){
             this.handleResetClick()
             return;
         }
         if (this.isSelectingFirstDay(from, to, day)){
-            this.setState({
+            this.props.handleDate({
                 from: day,
                 to: null,
+            })
+            this.setState({
                 enteredTo: null
             })
         }else{
+            this.props.handleDate({to: day})
             this.setState({
-                to: day,
                 enteredTo: day
             })
         }
     }
     handleDayMouseEnter(day){
-        const { from, to } = this.state
+        const from = this.props.from
+        const to = this.props.to
         if (!this.isSelectingFirstDay(from, to, day)){
             this.setState({
                 enteredTo: day
@@ -53,12 +54,14 @@ export default class DateRangePicker extends React.Component {
         }
     }
     handleResetClick(){
+        this.props.handleDate({from: null, to: null})
         this.setState(this.getInitialState())
     }
     render(){
-        const { from, to, enteredTo } = this.state;
+        const { from, to } = this.props;
+        const enteredTo = this.state.enteredTo
         const modifiers = { start: from, end: enteredTo };
-        const disabledDays = { before: this.state.from };
+        const disabledDays = { before: this.props.from };
         const selectedDays = [from, {from, to: enteredTo }]
         return (
             <div>
