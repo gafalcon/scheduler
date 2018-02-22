@@ -26,7 +26,7 @@ export default class RegisterAppointment extends Component {
     }
 
     getInitialState(){
-        fetch("/sessions/", {
+        fetch("/sessions/available", {
             headers: new Headers({'Content-Type': 'application/json'})
         }).then(res => res.json())
           .then(response => {
@@ -52,8 +52,8 @@ export default class RegisterAppointment extends Component {
         window.sess = sess
         if (sess){
             this.setState({session: {
-                minDate: new Date(sess.start_date),
-                maxDate: new Date(sess.end_date),
+                minDate: new Date(sess.minDate),
+                maxDate: new Date(sess.maxDate),
                 disabledDays: []
             }})
         }
