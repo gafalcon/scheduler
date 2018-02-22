@@ -22,25 +22,39 @@ export default class RegisterAppointment extends Component {
         this.session_selected = this.session_selected.bind(this)
         this.dateSelected = this.dateSelected.bind(this)
         this.timeSelected = this.timeSelected.bind(this)
+        this.getInitialState = this.getInitialState.bind(this)
+    }
+
+    getInitialState(){
+        fetch("/sessions/", {
+            headers: new Headers({'Content-Type': 'application/json'})
+        }).then(res => res.json())
+          .then(response => {
+              this.setState(
+                  {
+                      sessions: response,
+                      availableSessions: response.map((session) => session.name )
+                  }
+              )
+          })
+          .catch(err => console.log(err))
+    }
+
+    componentDidMount(){
+        this.getInitialState()
     }
 
     session_selected(event){
         var session_name = event.target.value
         this.setState({session_name: session_name})
 
-        //TODO find available dates on a DB
-        if (session_name === "sesion1"){
-            var session = {
-                minDate: new Date(2018, 0, 1),
-                maxDate: new Date(2018, 1, 1),
-                disabledDays: [new Date(2018, 1, 23)]
-            }
-            this.setState({session: session})
-        }else{
+        const sess = this.state.sessions.find((s, i) => s.name === session_name )
+        window.sess = sess
+        if (sess){
             this.setState({session: {
-                minDate: new Date(2018, 1, 1),
-                maxDate: new Date(2018, 2, 1),
-                disabledDays: [new Date(2018, 1, 22), new Date(2018, 1, 15)]
+                minDate: new Date(sess.start_date),
+                maxDate: new Date(sess.end_date),
+                disabledDays: []
             }})
         }
     }
